@@ -43,10 +43,12 @@
 
   const countdown = function () {
     const finalDate = new Date(config.finalDate).getTime();
+
     const daysSpan = document.querySelector('.counter .days');
     const hoursSpan = document.querySelector('.counter .hours');
     const minutesSpan = document.querySelector('.counter .minutes');
     const secondsSpan = document.querySelector('.counter .seconds');
+
     let timeInterval;
 
     if (!(daysSpan && hoursSpan && minutesSpan && secondsSpan)) return;
@@ -72,10 +74,10 @@
       minutes <= 9 ? (minutes = '0' + minutes) : minutes;
       seconds <= 9 ? (seconds = '0' + seconds) : seconds;
 
-      daysSpan.textContent = days;
-      hoursSpan.textContent = hours;
-      minutesSpan.textContent = minutes;
-      secondsSpan.textContent = seconds;
+      if (days) daysSpan.textContent = days;
+      if (hours) hoursSpan.textContent = hours;
+      if (minutes) minutesSpan.textContent = minutes;
+      if (seconds) secondsSpan.textContent = seconds;
     }
 
     timer();
@@ -157,26 +159,21 @@
       url = url.replace('/post?u=', '/post-json?u=');
       url += serialize + '&c=displayMailChimpStatus';
 
-      // Create script with url and callback (if specified)
       var ref = window.document.getElementsByTagName('script')[0];
       var script = window.document.createElement('script');
       script.src = url;
 
-      // Create global variable for the status container
       window.mcStatus = form.querySelector('.mc-status');
       window.mcStatus.classList.remove('error-message', 'succemessage');
       window.mcStatus.innerText = 'Submitting...';
 
-      // Insert script tag into the DOM
       ref.parentNode.insertBefore(script, ref);
 
-      // After the script is loaded (and executed), remove it
       script.onload = function () {
         this.remove();
       };
     }
 
-    // Check email field on submit
     mcForm.addEventListener(
       'submit',
       function (event) {
@@ -197,8 +194,6 @@
     );
   };
 
-  /* Smooth Scrolling
-   * ------------------------------------------------------ */
   const moveTo = function () {
     const easeFunctions = {
       easeInQuad: function (t, b, c, d) {
